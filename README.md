@@ -2,7 +2,8 @@
 
 A command line utility tool that quickly formats your `C` code for you, (so that you don't have to)
 
-> Prerequisite: Your code should be syntatically correct
+> [!NOTE]
+> A requirement is that your code should be syntatically correct
 
 
 # how it works?
@@ -60,4 +61,4 @@ First it removes all the existing formatting of the code adhering to some **rule
 
 ## up next
 
--[ ] Handle comments
+- [ ] Handle comments
