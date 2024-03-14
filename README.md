@@ -7,10 +7,7 @@ A command line utility tool that quickly formats your `C` code for you, (so that
 
 # how it works?
 
-## STEP 1: REMOVE ALL FORMATTING
-
-First it removes all the existing formatting of the code adhering to some **rules**
-
+Let's go through some definitions that makes the discussion easier
 ### definitions:
 
 *Formatting characters*: These include 
@@ -33,6 +30,11 @@ while(a<10)     // this line has ID = 0
     printf("end");              // ID = 1
 }
 ```
+
+## STEP 1: REMOVE ALL FORMATTING
+
+First it removes all the existing formatting of the code adhering to some **rules**
+
 
 ### rules:
 
