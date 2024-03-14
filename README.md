@@ -53,10 +53,12 @@ First it removes all the existing formatting of the code adhering to some **rule
 
 ### method (for indentation):
 
-1. initially set indentation depth(ID) `ID = 0`
-2. after every `{` you find, increment ID i.e., `ID++`
-3. print as many tabs after each `\n` as the number of `ID`
-4. after every `}` you find, decrement ID i.e., `ID--`
+1. split the entire code into lines
+2. each line may consist of either a `{` **OR** a `}` **OR** a line ending with a semicolon;
+3. one by one feed the lines into a tree (each line is a node, which has sibling or children)
+    - when you find a `{` add to the child of the current line (node)
+    - when you find another line ending with a semicolon; add to the sibling of the current line
+    - when you find a `}` finish feeding the tree (or subtree)
 
 
 ## up next
