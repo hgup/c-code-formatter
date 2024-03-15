@@ -42,6 +42,7 @@ First it removes all the existing formatting of the code adhering to some **rule
 1. Don't touch anything between subsequent quotation marks(`"`)
 2. Remove all existing *formatting characters* before and after `{`, `}`, `;`, `=`, `+`, `-`, `%`, `*`, `/`, `(`, `)`
 3. Change all remaining **multiple** spaces or tabs to __single spaces__
+4. When you have a line starting with `#` don't remove the `\n` at the end 
 
 ## STEP 2: ADD REQUIRED FORMATTING CHARACTERS
 

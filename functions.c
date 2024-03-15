@@ -3,6 +3,85 @@
 
 void attach(String S, char c);
 int isFormatChar(char c);
+void attachTabs(Node t, int ID);
+int isInlineFormatChar(char c);
+
+void attachTabs(Node t, int ID ){
+  t->next = (Node)malloc(sizeof(struct strNode));
+  t = t->next;
+  t->ch = '\n';
+  
+  for(int i = 0; i < ID; i++){
+    t->next = (Node)malloc(sizeof(struct strNode));
+    t = t->next;
+    t->ch = '\t';
+  }
+  t->next = NULL;
+}
+void add_formatting(String S){
+
+  int ID = 0;
+  Node p,t = S;
+
+  while(t && t->next){
+      switch(t->next->ch){
+      // NEWLINES
+        case '{':
+          p = t->next;
+          attachTabs(t,ID);
+          while(t->next) t = t->next;
+          t->next = p; 
+          ID++;
+          t = t->next;
+          p = t->next;
+          attachTabs(t,ID);
+          while(t->next) t = t->next;
+          t->next = p; 
+          break;
+
+        case '}':
+          ID--;
+          printf("}%d\n",ID);
+          p = t->next;
+          attachTabs(t,ID);
+          while(t->next) t = t->next;
+          t->next = p; 
+          t = t->next;
+          p = t->next;
+          attachTabs(t,ID);
+          while(t->next) t = t->next;
+          t->next = p; 
+          break;
+
+        case ';':
+          if(t->next->next && t->next->next->ch =='}')
+            break;
+            t = t->next;
+            p = t->next;
+            attachTabs(t,ID);
+            while(t->next) t = t->next;
+            t->next = p; 
+            break;
+          
+          
+      // SPACES
+        case '(':
+        // only after
+        case '=':
+        case ')':
+        // only after
+        case ',':
+        case '+':
+        case '-':
+        case '/':
+        case '*':
+        default:
+          break;
+      }
+  t = t->next;
+
+  }
+}
 
 String remove_existing_formatting(char* buffer, long length){
 
@@ -14,6 +93,15 @@ String remove_existing_formatting(char* buffer, long length){
   for(int i = 0; i < length; i++ ){
 
     switch(buffer[i]){
+      case '#':
+        while(buffer[i] != '\n'){
+          printf(">>%c",buffer[i]);
+          attach(t,buffer[i++]);
+          t = t->next;
+        }
+        attach(t,'\n');
+        t = t->next;
+        break;
       case '"':
         attach(t, buffer[i]);
         t = t->next;
@@ -52,11 +140,11 @@ String remove_existing_formatting(char* buffer, long length){
   t = S->next;
 
   while(t->next){
-    if (isFormatChar(t->next->ch)){
+    if (isInlineFormatChar(t->next->ch)){
       // skip all format chars if the other end has  , \{, ;... etc
       // otherwise replace all format chars with one space
       p = t->next;
-      while(isFormatChar(p->ch)){
+      while(isInlineFormatChar(p->ch)){
         q = p->next;
         free(p);
         p = q;
@@ -84,6 +172,7 @@ String remove_existing_formatting(char* buffer, long length){
     }
     t = t->next;
   }
+  attach(t,'\n');
 
   return S;
 }
@@ -100,6 +189,12 @@ void attach(Node t, char c){
 
 int isFormatChar(char c){
  if(c == '\n' || c == ' ' || c == '\t')
+    return 1;
+  return 0;
+}
+
+int isInlineFormatChar(char c){
+ if( c == ' ' || c == '\t')
     return 1;
   return 0;
 }

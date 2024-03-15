@@ -1,9 +1,10 @@
 
 #include "main.h"
+#include <stdio.h>
 
 int main(int args, char** argv){
+  {{
 
-  // HANDLE INPUT ERROR
   if (args < 2){
     printf("\nformat: missing operand\nUsage: format [FILENAME] [FILENAME]...\n");
     return -1;
@@ -13,14 +14,12 @@ int main(int args, char** argv){
   long length;
 
   for(int i = 1; i < args; i++){
-    // for each file we do the following operations
     FILE *f = fopen(argv[i], "r");
 
     if (!f){
       printf("format ERROR: file %s doens't exist",argv[i]);
       return -1;
     }
-    // if file exists
     fseek(f, 0, SEEK_END);
     length = ftell(f);
     fseek(f, 0, SEEK_SET);
@@ -34,14 +33,12 @@ int main(int args, char** argv){
     fclose(f);
     
 
-    // STEP 1
-    
     String S = remove_existing_formatting(buffer, length);
 
-    // STEP 2
 
     add_formatting(S);
     printString(S);
 
   }
-}
+  printf("done");
+}}}

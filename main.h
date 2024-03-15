@@ -28,4 +28,10 @@ void printString(String S);
  */
 String remove_existing_formatting(char* buffer, long length);
 
+
+/*
+ * adds good formatting to the String S
+ */
+void add_formatting(String S);
+
 #endif // !formatter

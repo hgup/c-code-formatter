@@ -11,3 +11,6 @@ functions.o: functions.c
 
 clear:
 	rm *.o
+
+run:
+	./format test.c
