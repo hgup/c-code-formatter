@@ -6,7 +6,7 @@ int main(int args, char** argv){
   {{
 
   if (args < 2){
-    printf("\nformat: missing operand\nUsage: format [FILENAME] [FILENAME]...\n");
+    printf("\nformat:      missing operand\nUsage: format [FILENAME] [FILENAME]...\n");
     return -1;
   }
 

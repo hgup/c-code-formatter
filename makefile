@@ -14,3 +14,6 @@ clear:
 
 run:
 	./format test.c
+
+debug:
+	gdb ./format

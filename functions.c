@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include <stdlib.h>
 
 void attach(String S, char c);
 int isFormatChar(char c);
@@ -18,69 +19,89 @@ void attachTabs(Node t, int ID ){
   }
   t->next = NULL;
 }
-void add_formatting(String S){
 
-  int ID = 0;
-  Node p,t = S;
-
-  while(t && t->next){
-      switch(t->next->ch){
-      // NEWLINES
-        case '{':
-          p = t->next;
-          attachTabs(t,ID);
-          while(t->next) t = t->next;
-          t->next = p; 
-          ID++;
-          t = t->next;
-          p = t->next;
-          attachTabs(t,ID);
-          while(t->next) t = t->next;
-          t->next = p; 
-          break;
-
-        case '}':
-          ID--;
-          printf("}%d\n",ID);
-          p = t->next;
-          attachTabs(t,ID);
-          while(t->next) t = t->next;
-          t->next = p; 
-          t = t->next;
-          p = t->next;
-          attachTabs(t,ID);
-          while(t->next) t = t->next;
-          t->next = p; 
-          break;
-
-        case ';':
-          if(t->next->next && t->next->next->ch =='}')
-            break;
-            t = t->next;
-            p = t->next;
-            attachTabs(t,ID);
-            while(t->next) t = t->next;
-            t->next = p; 
-            break;
-          
-          
-      // SPACES
-        case '(':
-        // only after
-        case '=':
-        case ')':
-        // only after
-        case ',':
-        case '+':
-        case '-':
-        case '/':
-        case '*':
-        default:
-          break;
-      }
-  t = t->next;
-
+void printDepth(int d){
+  for(int i = 0; i<d; i++){
+    printf("\t");
   }
+}
+
+void printTree(Tree T, int depth){
+  while(T){
+    // printf("[%d]\t",depth);
+    printDepth(depth);
+    printString(T->Line);
+    if(T->child){
+      printDepth(depth);
+      printf("{\n");
+      printTree(T->child, depth+1);
+      printDepth(depth);
+      printf("}\n");
+    }
+    T = T->nextSibling;
+  }
+}
+
+Tree getNewTree(){
+  Tree T = (Tree) malloc(sizeof(struct treeNode));
+  T->nextSibling = NULL;
+  T->Line = NULL;
+  T->child = NULL;
+  return T;
+}
+String makeString(char *p){
+  String S = (String)malloc(sizeof(struct strNode));
+  String t = S;
+  while(*p){
+    t->next = (Node)malloc(sizeof(struct strNode));
+    t = t->next;
+    t->ch = *p;
+    p++;
+  }
+  t->next = NULL;
+  return S;
+}
+
+// NOTE: You always return and call the function with a dummy node
+String makeTree(String S, Tree T){
+
+  T->Line = S;
+  String p;
+  while(S->next){
+    p = NULL;
+    switch(S->next->ch){
+      case '{':
+        // whatever scanned till now will go to current line
+        p = S->next;
+        // printf("> %c\n", p->ch);
+        S->next = NULL;
+        T->child = getNewTree();
+        p = makeTree(p,T->child); // passed '{' node as dummy
+        break;
+      case '}':
+        p = S->next;
+        S->next = NULL;
+        return p; // treated '}' node as dummy
+        break;
+      // case '\n':
+      case ';':
+        p = S->next;
+        S->next = (String)malloc(sizeof(struct strNode));
+        S->next->ch = ';';
+        S->next->next = NULL;
+        T->nextSibling = getNewTree();
+        T = T->nextSibling;
+        T->Line = p;
+        break;
+      default:
+        break;
+    }
+    if (p)
+      S = p;
+    else
+      S = S->next;
+    }
+  return NULL;
 }
 
 String remove_existing_formatting(char* buffer, long length){
@@ -201,10 +222,9 @@ int isInlineFormatChar(char c){
 
 void printString(String S){
   Node t = S->next;
-  printf("\nSTART======\n");
   while(t){
     printf("%c",t->ch);
     t = t->next;
   }
-  printf("======END\n");
+  printf("\n");
 }

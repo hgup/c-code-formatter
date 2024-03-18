@@ -1,4 +1,3 @@
-
 #include "main.h"
 
 int main(int args, char** argv){
@@ -37,11 +36,23 @@ int main(int args, char** argv){
     // STEP 1
     
     String S = remove_existing_formatting(buffer, length);
+    printf("\nSTART======\n");
+    printString(S);
+    printf("======END\n");
 
     // STEP 2
+    Tree T = getNewTree();
+    // T->Line=makeString("Hello there");
+    // T->child = getNewTree();
+    // T->child->Line=makeString("This is cool");
+    // T->child->nextSibling=getNewTree();
+    // T->child->nextSibling->Line =makeString("This was uncalled for");
+    // T->nextSibling=getNewTree();
+    // T->nextSibling->Line=makeString("This is also cool");
 
-    add_formatting(S);
-    printString(S);
+    String p = makeTree(S,T);
+    // // add_formatting(S);
+    printTree(T, 0);
 
   }
 }
