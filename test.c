@@ -1,5 +1,7 @@
 
 #include "main.h"
+
+#include <string.h>
 #include <stdio.h>
 
 int main(int args, char** argv){
@@ -17,7 +19,7 @@ int main(int args, char** argv){
     FILE *f = fopen(argv[i], "r");
 
     if (!f){
-      printf("format ERROR: file %s doens't exist",argv[i]);
+      printf("format ERROR:  file %s doens't exist",argv[i]);
       return -1;
     }
     fseek(f, 0, SEEK_END);
@@ -28,6 +30,18 @@ int main(int args, char** argv){
       printf("Ran out of Memory!\n");
       return -1;
     }
+
+    switch('h'){
+        case 1:
+          hello;
+        case 2:
+          yolo;
+          printf("done"); break;
+        case 3:
+          niahilo;
+        default:
+          break;
+      }
 
     fread(buffer, 1, length, f);
     fclose(f);

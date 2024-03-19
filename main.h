@@ -48,14 +48,25 @@ String remove_existing_formatting(char* buffer, long length);
 void add_formatting(String S);
 
 /*
- *
+ * type: 'n' means normal
+ *       'c' means case from 'switch-case'
  */
-String makeTree(String S, Tree OG_T);
+String makeTree(String S, Tree OG_T, char type);
 
 /*
  *
  */
 void printTree(Tree T, int depth);
+
+/*
+ *
+ */
+void fprintString(String S, FILE* fp);
+
+/*
+ *
+ */
+void fprintTree(Tree T, int depth, FILE* fp);
 
 String makeString(char *p);
 

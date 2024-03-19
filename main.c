@@ -2,7 +2,7 @@
 
 int main(int args, char** argv){
 
-  // HANDLE INPUT ERROR
+  // HANDLE INPUT ERROR;
   if (args < 2){
     printf("\nformat: missing operand\nUsage: format [FILENAME] [FILENAME]...\n");
     return -1;
@@ -12,14 +12,14 @@ int main(int args, char** argv){
   long length;
 
   for(int i = 1; i < args; i++){
-    // for each file we do the following operations
+    // for each file we do the following operations;
     FILE *f = fopen(argv[i], "r");
 
     if (!f){
-      printf("format ERROR: file %s doens't exist",argv[i]);
+      printf("format ERROR: file %s doens't exist    :(",argv[i]);
       return -1;
     }
-    // if file exists
+    // if file exists;
     fseek(f, 0, SEEK_END);
     length = ftell(f);
     fseek(f, 0, SEEK_SET);
@@ -33,14 +33,13 @@ int main(int args, char** argv){
     fclose(f);
     
 
-    // STEP 1
-    
+    // STEP 1;
     String S = remove_existing_formatting(buffer, length);
-    printf("\nSTART======\n");
-    printString(S);
-    printf("======END\n");
+    // printf("\nSTART======\n");
+    // printString(S);
+    // printf("======END\n");
 
-    // STEP 2
+    // STEP 2;
     Tree T = getNewTree();
     // T->Line=makeString("Hello there");
     // T->child = getNewTree();
@@ -50,9 +49,13 @@ int main(int args, char** argv){
     // T->nextSibling=getNewTree();
     // T->nextSibling->Line=makeString("This is also cool");
 
-    String p = makeTree(S,T);
-    // // add_formatting(S);
-    printTree(T, 0);
+    String p = makeTree(S,T,'n');
+    // printTree(T, 0);
+    char *dest = "output.txt";
+    FILE *fp = fopen(dest, "w");
+    fprintTree(T,0,fp);
+    fclose(fp);
 
+    return 0;
   }
 }
