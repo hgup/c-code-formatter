@@ -2,6 +2,12 @@
 
 A command line utility tool that quickly formats your `C` code for you, (so that you don't have to)
 
+## Usage
+```bash
+make # to build
+format file1.c file2.c ... # enter files you want to format
+```
+
 > [!NOTE]
 > A requirement is that your code should be syntatically correct
 
