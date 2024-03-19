@@ -51,11 +51,22 @@ int main(int args, char** argv){
 
     String p = makeTree(S,T,'n');
     // printTree(T, 0);
-    char *dest = "output.txt";
-    FILE *fp = fopen(dest, "w");
+    char dest[100] = "~";
+    strcat(dest,argv[i]);
+  
+    FILE *source = fopen(argv[i],"r");
+    FILE *target = fopen(dest,"w");
+    char ch;
+    while ((ch = fgetc(source)) != EOF)
+      fputc(ch, target);
+    // system(cmd);
+    fclose(source);
+    fclose(target);
+
+    FILE *fp = fopen(argv[i], "w");
     fprintTree(T,0,fp);
     fclose(fp);
 
-    return 0;
   }
+    return 0;
 }

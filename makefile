@@ -13,7 +13,7 @@ clear:
 	rm *.o
 
 run:
-	./format test.c
+	./format test.c && cat ./test.c
 
 debug:
 	gdb ./format
