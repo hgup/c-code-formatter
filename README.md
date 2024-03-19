@@ -54,14 +54,20 @@ First it removes all the existing formatting of the code adhering to some **rule
 
 ### method (for indentation):
 
-1. split the entire code into lines
-2. each line may consist of either a `{` **OR** a `}` **OR** a line ending with a semicolon;
-3. one by one feed the lines into a tree (each line is a node, which has sibling or children)
-    - when you find a `{` add to the child of the current line (node)
-    - when you find another line ending with a semicolon; add to the sibling of the current line
-    - when you find a `}` finish feeding the tree (or subtree)
+1. identify the lines and start pushing them as siblings in a tree
+2. when you find a `{` tag, create a child and start pushing the next lines as sibling of that subtree
+3. when you find a `}` tag, go back to the parent tree and continue adding the next lines as siblings
+
+### printing
+
+1. print each line on the tree preceding with indents
+2. when you find no children, continue printing the next sibling with the same number of indents
+3. when you find children, print the current line and start printing all of the children with +1 indents
+
+> The number of indents to be given is nothing but the depth of the tree, so during the recursive call, keeping track of the depth of the tree will be sufficient to find out how many indents to print.
 
 
 ## up next
 
 - [ ] Handle comments
+
