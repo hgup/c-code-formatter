@@ -4,7 +4,9 @@ A command line utility tool that quickly formats your `C` code for you, (so that
 
 ## Usage
 ```bash
-make # to build
+git clone https://github.com/hgup/c-code-formatter
+cd c-code-formatter
+./make # to build
 format file1.c file2.c ... # enter files you want to format
 ```
 
