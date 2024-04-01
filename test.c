@@ -35,15 +35,17 @@ int main(int args,char**argv)
             switch('h')
             {
                case 1:
-               hello;
+                  printf("hello new");
+                  if(1 > 2)
+                  {
+                     printf("hello new");
+                  }
+                  break;
                case 2:
-               yolo;
-               printf("done");
-               break;
-               case 3:
-               niahilo;
+                  printf("hello");
+                  break;
                default:
-               break;
+                  break;
             }
             fread(buffer, 1, length, f);
             fclose(f);

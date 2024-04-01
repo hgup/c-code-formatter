@@ -29,7 +29,7 @@ void attachTabs(Node t, int ID ){
 
 void printDepth(int d){
   for(int i = 0; i<d; i++){
-    printf("   ");
+    printf("  ");
   }
 }
 
@@ -102,14 +102,29 @@ String makeTree(String S, Tree T, char type){
           break;
         }
         break;
-      // case ':':
-      //     printString(S->next);
-      //     printf("\n\n");
-      //     p = S->next;
-      //     S->next = newNode(':');
-      //     T->child = getNewTree();
-      //     p = makeTree(p,T->child,'c'); // passed '{' node as dummy
-      //   break;
+      case 'c':
+      case 'd':
+        if(isThis(S->next, "case ") || isThis(S->next, "default:"))
+        {
+          if(type == 'n'){
+              while(S->ch != ':'){
+                S = S->next;
+              } // after which S is at ':'
+              p = newNode(' ');
+              p->next = S->next;
+              S->next = NULL;
+              T->child = getNewTree('c');
+              p = makeTree(p,T->child,'c');
+          }
+          if (type == 'c'){
+            p = newNode('\0'); //dummy
+            p ->next = newNode(';'); // big brain move
+            p->next->next = S->next;
+            S->next = NULL;
+            return p; // treated node as dummy
+          }
+        }
+        break;
       case '{':
         // whatever scanned till now will go to current line
         p = S->next;
@@ -118,6 +133,12 @@ String makeTree(String S, Tree T, char type){
         p = makeTree(p,T->child,'n'); // passed '{' node as dummy
         break;
       case '}':
+        if (type == 'c'){
+            p = newNode('\0'); // dummy
+            p->next = S->next;
+            S->next = NULL;
+            return p; // treated '}' node as dummy
+        }
         p = S->next;
         S->next = NULL;
         return p; // treated '}' node as dummy
@@ -364,10 +385,9 @@ void fprintString(String S, FILE *fp, int depth){
           if (t->next!=NULL)
             fprintf(fp, " ");
           break;
-        case ':':
-          fprintf(fp,"\n");
-          fprintDepth(depth, fp);
-          break;
+        // case ':':
+        //   fprintDepth(depth, fp);
+        //   break;
       }
     t = t->next;
   }
