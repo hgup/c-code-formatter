@@ -62,7 +62,7 @@ void printTree(Tree T, int depth);
 /*
  *
  */
-void fprintString(String S, FILE* fp);
+void fprintString(String S, FILE* fp, int depth);
 
 /*
  *

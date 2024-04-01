@@ -78,4 +78,5 @@ First it removes all the existing formatting of the code adhering to some **rule
 ## up next
 
 - [ ] Handle comments
+- [ ] Handle Empty files
 

@@ -187,6 +187,8 @@ String remove_existing_formatting(char* buffer, long length){
       case '-':
       case '/':
       case '*':
+      case '<':
+      case '>':
       case '(':
       case ')':
         attach(t, buffer[i]);
@@ -234,6 +236,8 @@ String remove_existing_formatting(char* buffer, long length){
         case '/':
         case ':':
         case '*':
+        case '<':
+        case '>':
         case '(':
         case ')':
           t->next = p;
@@ -318,10 +322,49 @@ void fprintDepth(int d, FILE *fp){
   }
 }
 
-void fprintString(String S, FILE *fp){
+void fprintString(String S, FILE *fp, int depth){
+  int INSTRING = 0;
+  int AS_IT_IS = 0;
   Node t = S->next;
   while(t){
+    if (t->ch == '"'){
+        if (INSTRING)
+          INSTRING = 0; // switch INSTRING
+        else
+          INSTRING = 1;
+    }
     fprintf(fp,"%c",t->ch);
+    if (!INSTRING && !AS_IT_IS) // ignore when inside string
+      switch(t->ch){
+        case ',':
+          fprintf(fp," ");
+          break;
+        case '*':
+          if(t->next->ch == '*'){
+            fprintf(fp, "* ");
+            t = t->next;
+          }
+          else
+            fprintf(fp," ");
+          break;
+        case '=':
+        case '<':
+        case '>':
+          fseek(fp,-1,SEEK_CUR);
+          fprintf(fp," %c ",t->ch);
+          break;
+        case '#':
+          AS_IT_IS = 1;
+          break;
+        case ';':
+          if (t->next!=NULL)
+            fprintf(fp, " ");
+          break;
+        case ':':
+          fprintf(fp,"\n");
+          fprintDepth(depth, fp);
+          break;
+      }
     t = t->next;
   }
 }
@@ -333,7 +376,7 @@ void fprintTree(Tree T, int depth, FILE* fp){
       if (T->Line->next != NULL){
       // printf("\n");
       fprintDepth(depth,fp);
-      fprintString(T->Line,fp);
+      fprintString(T->Line,fp, depth);
       fprintf(fp,"\n");
       }
       fprintDepth(depth,fp);
@@ -344,7 +387,7 @@ void fprintTree(Tree T, int depth, FILE* fp){
     } else {
       if(T->Line->next != NULL){
         fprintDepth(depth,fp);
-        fprintString(T->Line,fp);
+        fprintString(T->Line,fp, depth);
         fprintf(fp,"\n");
       }
     }

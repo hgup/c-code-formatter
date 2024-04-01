@@ -1,8 +1,6 @@
-
 #include "main.h"
-
-#include <string.h>
-#include <stdio.h>
+#include<string.h> 
+#include<stdio.h> 
 
 int main(int args,char**argv)
 {
@@ -13,20 +11,20 @@ int main(int args,char**argv)
             printf("\nformat:      missing operand\nUsage: format [FILENAME] [FILENAME]...\n");
             return-1;
          }
-         char*buffer=0;
+         char* buffer = 0;
          long length;
-         for(int i=1;i < args;i++)
+         for(int i = 1; i < args; i++)
          {
-            FILE*f=fopen(argv[i],"r");
+            FILE* f = fopen(argv[i], "r");
             if(!f)
             {
-               printf("format ERROR:  file %s doens't exist",argv[i]);
+               printf("format ERROR:  file %s doens't exist", argv[i]);
                return-1;
             }
-            fseek(f,0,SEEK_END);
-            length=ftell(f);
-            fseek(f,0,SEEK_SET);
-            buffer=malloc(length);
+            fseek(f, 0, SEEK_END);
+            length = ftell(f);
+            fseek(f, 0, SEEK_SET);
+            buffer = malloc(length);
             if(!buffer)
             {
                printf("Ran out of Memory!\n");
@@ -34,16 +32,20 @@ int main(int args,char**argv)
             }
             switch('h')
             {
-               case 1:hello;
-               case 2:yolo;
+               case 1:
+               hello;
+               case 2:
+               yolo;
                printf("done");
                break;
-               case 3:niahilo;
-               default:break;
+               case 3:
+               niahilo;
+               default:
+               break;
             }
-            fread(buffer,1,length,f);
+            fread(buffer, 1, length, f);
             fclose(f);
-            String S=remove_existing_formatting(buffer,length);
+            String S = remove_existing_formatting(buffer, length);
             add_formatting(S);
             printString(S);
          }
