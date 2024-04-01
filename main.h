@@ -25,6 +25,7 @@
     String Line;
     TNode child;
     TNode nextSibling;
+    char type; // type of subtree
   };
 
   typedef struct treeNode* TNode;
@@ -71,6 +72,6 @@ void fprintTree(Tree T, int depth, FILE* fp);
 
 String makeString(char *p);
 
-Tree getNewTree();
+Tree getNewTree(char type);
 
 #endif // !formatter

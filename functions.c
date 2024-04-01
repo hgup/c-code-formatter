@@ -33,11 +33,12 @@ void printDepth(int d){
   }
 }
 
-Tree getNewTree(){
+Tree getNewTree(char type){
   Tree T = (Tree) malloc(sizeof(struct treeNode));
   T->nextSibling = NULL;
   T->Line = NULL;
   T->child = NULL;
+  T->type = type;
   return T;
 }
 String makeString(char *p){
@@ -79,7 +80,7 @@ String makeTree(String S, Tree T, char type){
     p = NULL;
     switch(S->next->ch){
       case 'f':
-        if(isThis(S->next->next, "or(")){
+        if(isThis(S->next, "for(")){
           balance = 0;
           for_col_count = 0;
           while(balance != 0 || for_col_count != 2){
@@ -95,7 +96,7 @@ String makeTree(String S, Tree T, char type){
           S->next = (String)malloc(sizeof(struct strNode));
           S->next->ch = ')';
           S->next->next = NULL;
-          T->nextSibling = getNewTree();
+          T->nextSibling = getNewTree('n');
           T = T->nextSibling;
           T->Line = p;
           break;
@@ -113,7 +114,7 @@ String makeTree(String S, Tree T, char type){
         // whatever scanned till now will go to current line
         p = S->next;
         S->next = NULL;
-        T->child = getNewTree();
+        T->child = getNewTree('n');
         p = makeTree(p,T->child,'n'); // passed '{' node as dummy
         break;
       case '}':
@@ -127,7 +128,7 @@ String makeTree(String S, Tree T, char type){
         S->next = (String)malloc(sizeof(struct strNode));
         S->next->ch = ';';
         S->next->next = NULL;
-        T->nextSibling = getNewTree();
+        T->nextSibling = getNewTree('n');
         T = T->nextSibling;
         T->Line = p;
         break;
@@ -297,11 +298,13 @@ void printTree(Tree T, int depth){
       printString(T->Line);
       printf("\n");
       }
-      printDepth(depth);
-      printf("{\n");
+      if(T->child->type == 'n'){
+        printDepth(depth); printf("{\n");
+      }
       printTree(T->child, depth+1);
-      printDepth(depth);
-      printf("}\n");
+      if(T->child->type == 'n'){
+        printDepth(depth); printf("}\n");
+      }
     } else {
       if(T->Line->next != NULL){
         printDepth(depth);
@@ -323,6 +326,7 @@ void fprintDepth(int d, FILE *fp){
 }
 
 void fprintString(String S, FILE *fp, int depth){
+  int IN_CASE = 0;
   int INSTRING = 0;
   int AS_IT_IS = 0;
   Node t = S->next;
@@ -379,11 +383,15 @@ void fprintTree(Tree T, int depth, FILE* fp){
       fprintString(T->Line,fp, depth);
       fprintf(fp,"\n");
       }
-      fprintDepth(depth,fp);
-      fprintf(fp,"{\n");
+      if(T->child->type == 'n'){
+        fprintDepth(depth,fp);
+        fprintf(fp,"{\n");
+      }
       fprintTree(T->child, depth+1, fp);
-      fprintDepth(depth,fp);
-      fprintf(fp,"}\n");
+      if(T->child->type == 'n'){
+        fprintDepth(depth,fp);
+        fprintf(fp,"}\n");
+      }
     } else {
       if(T->Line->next != NULL){
         fprintDepth(depth,fp);

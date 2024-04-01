@@ -40,7 +40,7 @@ int main(int args, char** argv){
     // printf("======END\n");
 
     // STEP 2;
-    Tree T = getNewTree();
+    Tree T = getNewTree('n');
     // T->Line=makeString("Hello there");
     // T->child = getNewTree();
     // T->child->Line=makeString("This is cool");
